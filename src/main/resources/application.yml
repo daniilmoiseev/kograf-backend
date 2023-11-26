@@ -1,0 +1,61 @@
+spring:
+  kafka:
+    bootstrap-servers: localhost:9092
+    producer:
+      value-serializer: com.fasterxml.jackson.databind.JsonSerializer
+    consumer:
+      group-id: configuration-monitoring
+      value-deserializer: com.fasterxml.jackson.databind.JsonDeserializer
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    test-while-idle: true
+    url: jdbc:postgresql://${spring.datasource.database.host}:${spring.datasource.database.port}/${spring.datasource.database.name}
+    password: postgres
+    username: postgres
+    database:
+      host: localhost
+      port: 5432
+      name: kograf
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      maximum-pool-size: 5
+      pool-name: backend-pool
+      max-lifetime: 2_000_000
+      idle-timeout: 5000
+      connection-test-query: SELECT 1
+      connection-timeout: 5000
+      validation-timeout: 30000
+  jpa:
+    show-sql: false
+    hibernate:
+      ddl-auto: none
+      naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        jdbc.lob.non_contextual_creation: true
+        cache.use_second_level_cache: false
+  #whiteip: http://localhost:4200
+  whiteip: *
+  port: 8080
+
+kograf:
+  sql:
+    fi: ""
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+
+jwt:
+  header: Authorization
+  secret: secretkograf123
+  expiration: 86400
+
+logging:
+  level:
+    root: INFO
+    ru.kograf: DEBUG
+
+server:
+  port: 8080
