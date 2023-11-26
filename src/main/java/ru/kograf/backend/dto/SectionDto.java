@@ -11,6 +11,7 @@ public class SectionDto {
 
     private Long id;
     private Long leaderId;
+    private String leaderName;
     private Long conferenceId;
     private String title;
 }

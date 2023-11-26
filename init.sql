@@ -79,3 +79,31 @@ CREATE TABLE kograf_user_to_conference (
   CONSTRAINT fk_user_user_to_conference FOREIGN KEY (user_id) REFERENCES kograf_user,
   CONSTRAINT fk_conference_user_to_conference FOREIGN KEY (conference_id) REFERENCES kograf_conference
 );
+
+INSERT INTO kograf_user(full_name, email, phone, organization, academic_degree, academic_title, orc_id, rinc_id, password, profile_picture, role, status)
+                VALUES ('fullname1', 'email1@email.com', '78901234455', 'organization', '', '', '', '', '$2a$12$CbsZSuwOpSAib3o9Lvo0QOEMmS7N.zYE7M5QJLdyoCjp0GXsFr2Vy', '', 'MEMBER', 'ACTIVE');
+INSERT INTO kograf_user(full_name, email, phone, organization, academic_degree, academic_title, orc_id, rinc_id, password, profile_picture, role, status)
+                VALUES ('fullname2', 'email2@email.com', '78901234455', 'organization', '', '', '', '', '$2a$12$CbsZSuwOpSAib3o9Lvo0QOEMmS7N.zYE7M5QJLdyoCjp0GXsFr2Vy', '', 'MEMBER', 'ACTIVE');
+INSERT INTO kograf_user(full_name, email, phone, organization, academic_degree, academic_title, orc_id, rinc_id, password, profile_picture, role, status)
+                VALUES ('fullname3', 'email3@email.com', '78901234455', 'organization', '', '', '', '', '$2a$12$CbsZSuwOpSAib3o9Lvo0QOEMmS7N.zYE7M5QJLdyoCjp0GXsFr2Vy', '', 'MEMBER', 'ACTIVE');
+
+INSERT INTO kograf_conference(title, organization, status, start_date, end_date)
+                VALUES ('title1', 'organization', 'ON_HOLD', now(), now() + interval '14' day);
+INSERT INTO kograf_conference(title, organization, status, start_date, end_date)
+                VALUES ('title2', 'organization', 'ON_HOLD', now(), now() + interval '14' day);
+INSERT INTO kograf_conference(title, organization, status, start_date, end_date)
+                VALUES ('title3', 'organization', 'ON_HOLD', now(), now() + interval '14' day);
+
+INSERT INTO kograf_user_to_conference(user_id, conference_id)
+                VALUES (1, 1);
+INSERT INTO kograf_user_to_conference(user_id, conference_id)
+                VALUES (2, 1);
+INSERT INTO kograf_user_to_conference(user_id, conference_id)
+                VALUES (3, 1);
+
+INSERT INTO kograf_section(title, organization, leader_id, conference_id)
+                VALUES ('title1', 'organization', 1, 1);
+INSERT INTO kograf_section(title, organization, leader_id, conference_id)
+                VALUES ('title2', 'organization', 2, 1);
+INSERT INTO kograf_section(title, organization, leader_id, conference_id)
+                VALUES ('title3', 'organization', 3, 1);

@@ -18,6 +18,7 @@ public class ConferenceDto {
     private List<SectionDto> sections;
     private ConferenceStatus status;
     private List<Long> userIds;
+    private Integer countUsers;
     private ZonedDateTime startDate;
     private ZonedDateTime endDate;
 }

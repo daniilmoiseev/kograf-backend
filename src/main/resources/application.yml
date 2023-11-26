@@ -36,7 +36,7 @@ spring:
         jdbc.lob.non_contextual_creation: true
         cache.use_second_level_cache: false
   #whiteip: http://localhost:4200
-  whiteip: *
+  whiteip: '*'
   port: 8080
 
 kograf:

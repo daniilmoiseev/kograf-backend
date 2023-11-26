@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.kograf.backend.dto.LoginDto;
 import ru.kograf.backend.dto.RegistrationDto;
 import ru.kograf.backend.dto.UserDto;
+import ru.kograf.backend.service.AuthService;
 import ru.kograf.backend.service.UserService;
 
 @RestController
@@ -20,10 +21,11 @@ import ru.kograf.backend.service.UserService;
 public class AuthenticationController {
 
     private final UserService userService;
+    private final AuthService authService;
 
     @PostMapping("/login")
     public ResponseEntity<?> authenticate(@RequestBody LoginDto request) {
-        return userService.authenticate(request);
+        return authService.authenticate(request);
     }
 
     @PostMapping("/registration")
