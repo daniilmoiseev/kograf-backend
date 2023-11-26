@@ -19,9 +19,10 @@ import ru.kograf.backend.security.JwtAuthenticationConfigurer;
 @EnableWebSecurity
 public class SecurityConfig {
 
+    //TODO fix path
     private static final List<String> AUTH_WHITELIST = List.of(
             "/api/v1/auth/**",
-            "/api/v1/reg/**",
+            "/api/v1/member/**",
             "/v3/api-docs/**",
             "/v3/api-docs.yaml",
             "/swagger-ui/**",

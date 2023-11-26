@@ -1,6 +1,7 @@
 package ru.kograf.backend.controller;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,6 +15,7 @@ import ru.kograf.backend.dto.UserDto;
 import ru.kograf.backend.service.AuthService;
 import ru.kograf.backend.service.UserService;
 
+@Slf4j
 @RestController
 @CrossOrigin(origins = "${spring.whiteip}")
 @RequestMapping("/api/v1/auth")
@@ -30,6 +32,7 @@ public class AuthenticationController {
 
     @PostMapping("/registration")
     public UserDto createUser(@RequestBody RegistrationDto registrationDto) {
+        log.debug("Registration {}", registrationDto);
         return userService.createUser(registrationDto);
     }
 
