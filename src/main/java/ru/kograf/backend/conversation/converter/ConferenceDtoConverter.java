@@ -24,6 +24,7 @@ public class ConferenceDtoConverter implements Converter<ConferenceDto, Conferen
         }
         target.setTitle(source.getTitle());
         target.setOrganization(source.getOrganization());
+        target.setDescription(source.getDescription());
         target.setSections(conversionService.convert(source.getSections(), Section.class));
         target.setStatus(source.getStatus());
         //target.setUsers(conversionService.convert(source.getUsers(), User.class));

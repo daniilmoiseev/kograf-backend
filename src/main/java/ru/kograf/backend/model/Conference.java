@@ -40,6 +40,8 @@ public class Conference {
 
     private String organization;
 
+    private String description;
+
     @OneToMany(mappedBy = "conference", cascade = {PERSIST, MERGE, REFRESH, DETACH})
     private List<Section> sections;
 

@@ -30,7 +30,6 @@ public class UserDtoConverter implements Converter<UserDto, User> {
         target.setOrcId(source.getOrcId());
         target.setRincId(source.getRincId());
         /*target.setConferences(conversionService.convert(source.getConferences(), Conference.class));
-        target.setSections(conversionService.convert(source.getSections(), Section.class));
         target.setJobs(conversionService.convert(source.getJobs(), Job.class));*/
         target.setProfilePicture(source.getProfilePicture());
         target.setRole(source.getRole());

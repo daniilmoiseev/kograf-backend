@@ -92,6 +92,7 @@
         <exclude name="SingularField"/>
         <exclude name="SignatureDeclareThrowsException"/>
         <exclude name="StdCyclomaticComplexity"/>
+        <exclude name="CognitiveComplexity"/>
     </rule>
     <rule ref="category/java/design.xml/AvoidDeeplyNestedIfStmts">
         <properties>
@@ -154,6 +155,7 @@
         <exclude name="LoggerIsNotStaticFinal"/>
         <exclude name="MissingSerialVersionUID"/>
         <exclude name="AvoidLiteralsInIfCondition"/>
+        <exclude name="AvoidDuplicateLiterals"/>
 
         <exclude
                 name="NullAssignment"/> <!-- disabled due to false positive for initialization with ternary operator -->
@@ -162,11 +164,11 @@
         <exclude name="UseLocaleWithCaseConversions"/>
         <exclude name="UseProperClassLoader"/> <!-- earlier j2ee group-->
     </rule>
-    <rule ref="category/java/errorprone.xml/AvoidDuplicateLiterals">
+    <!--<rule ref="category/java/errorprone.xml/AvoidDuplicateLiterals">
         <properties>
             <property name="skipAnnotations" value="true"/>
         </properties>
-    </rule>
+    </rule>-->
     <rule ref="category/java/errorprone.xml/CloseResource">
         <properties>
             <!-- AutoClosable removed from value because it produces too many false positives -->

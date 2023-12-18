@@ -7,7 +7,6 @@ import ru.kograf.backend.conversation.service.IKografConversionService;
 import ru.kograf.backend.dto.UserDto;
 import ru.kograf.backend.model.Conference;
 import ru.kograf.backend.model.Job;
-import ru.kograf.backend.model.Section;
 import ru.kograf.backend.model.User;
 
 @Component
@@ -35,9 +34,6 @@ public class UserConverter implements Converter<User, UserDto> {
         target.setRincId(source.getRincId());
         target.setConferenceIds(source.getConferences() != null
                 ? source.getConferences().stream().map(Conference::getId).toList()
-                : Collections.emptyList());
-        target.setSectionIds(source.getSections() != null
-                ? source.getSections().stream().map(Section::getId).toList()
                 : Collections.emptyList());
         target.setJobIds(source.getJobs() != null
                 ? source.getJobs().stream().map(Job::getId).toList()

@@ -60,9 +60,6 @@ public class User {
     @ManyToMany(mappedBy = "users", cascade = {PERSIST, MERGE, REFRESH, DETACH})
     private List<Conference> conferences;
 
-    @ManyToMany(mappedBy = "users", cascade = {PERSIST, MERGE, REFRESH, DETACH})
-    private List<Section> sections;
-
     @OneToMany(mappedBy = "user", cascade = {PERSIST, MERGE, REFRESH, DETACH})
     private List<Job> jobs;
 

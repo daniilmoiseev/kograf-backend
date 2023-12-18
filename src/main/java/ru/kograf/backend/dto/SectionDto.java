@@ -10,8 +10,7 @@ import lombok.NoArgsConstructor;
 public class SectionDto {
 
     private Long id;
-    private Long leaderId;
-    private String leaderName;
     private Long conferenceId;
+    private String leaderName;
     private String title;
 }

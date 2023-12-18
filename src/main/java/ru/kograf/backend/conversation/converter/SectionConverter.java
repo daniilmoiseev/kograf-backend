@@ -22,8 +22,7 @@ public class SectionConverter implements Converter<Section, SectionDto> {
             target.setId(source.getId());
         }
         target.setTitle(source.getTitle());
-        target.setLeaderId(source.getLeader().getId());
-        target.setLeaderName(source.getLeader().getFullName());
+        target.setLeaderName(source.getLeaderName());
         target.setConferenceId(source.getConference().getId());
         return target;
     }

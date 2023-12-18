@@ -15,6 +15,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query("FROM User u WHERE u.email = :email AND u.status = 'ACTIVE'")
     User findByEmailWithStatusActive(@Param("email") String email);
 
+    @Query("FROM User u WHERE u.email = :email AND u.status = 'BANNED'")
+    User findByEmailWithStatusBanned(@Param("email") String email);
+
     @Query("FROM User u WHERE u.email = :phone AND u.status = 'ACTIVE'")
     User findByPhoneWithStatusActive(@Param("phone") String phone);
 

@@ -12,10 +12,12 @@ import ru.kograf.backend.conversation.service.IKografConversionService;
 import ru.kograf.backend.dto.ConfirmationLink;
 import ru.kograf.backend.dto.RegistrationDto;
 import ru.kograf.backend.dto.UserDto;
+import ru.kograf.backend.dto.UserWithPasswordDto;
 import ru.kograf.backend.model.User;
 import ru.kograf.backend.model.UserSecurity;
 import ru.kograf.backend.model.enums.Role;
 import ru.kograf.backend.model.enums.UserStatus;
+import ru.kograf.backend.repository.ConferenceRepository;
 import ru.kograf.backend.repository.UserRepository;
 
 @Slf4j
@@ -25,6 +27,7 @@ public class UserService implements UserDetailsService {
 
     private final IKografConversionService conversionService;
     private final UserRepository userRepository;
+    private final ConferenceRepository conferenceRepository;
     private final EmailService emailService;
 
     public UserDto createUser(RegistrationDto registrationDto) {
@@ -32,7 +35,19 @@ public class UserService implements UserDetailsService {
             return null;
         }
 
-        User user = conversionService.convert(registrationDto, User.class);
+        User byEmailWithStatusBanned = userRepository.findByEmailWithStatusBanned(registrationDto.getEmail());
+        User user;
+        if (byEmailWithStatusBanned == null) {
+            user = conversionService.convert(registrationDto, User.class);
+        } else {
+            user = byEmailWithStatusBanned;
+            user.setFullName(registrationDto.getFullName());
+            user.setPhone(registrationDto.getPhone());
+            user.setOrganization(registrationDto.getOrganization());
+            user.setAcademicDegree(registrationDto.getAcademicDegree());
+            user.setAcademicTitle(registrationDto.getAcademicTitle());
+        }
+
         user.setPassword(new BCryptPasswordEncoder(12).encode(registrationDto.getPassword()));
         user.setRole(Role.MEMBER);
         user.setStatus(UserStatus.ACTIVE);
@@ -41,13 +56,42 @@ public class UserService implements UserDetailsService {
         return conversionService.convert(savedUser, UserDto.class);
     }
 
-    @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        User user = userRepository.findByEmailWithStatusActive(email);
-        if (user == null) {
-            throw new UsernameNotFoundException("User doesn't exists");
-        }
-        return UserSecurity.fromUser(user);
+    @SneakyThrows
+    public UserDto updateUser(UserDto userDto) {
+        User user = userRepository.findById(userDto.getId())
+                .orElseThrow(() -> new Exception("Unable to find user by id " + userDto.getId()));
+
+        user.setFullName(userDto.getFullName());
+        user.setPhone(userDto.getPhone());
+        user.setOrganization(userDto.getOrganization());
+        user.setAcademicDegree(userDto.getAcademicDegree());
+        user.setAcademicTitle(userDto.getAcademicTitle());
+        user.setOrcId(userDto.getOrcId());
+        user.setRincId(userDto.getRincId());
+
+        User savedUser = userRepository.save(user);
+        return conversionService.convert(savedUser, UserDto.class);
+    }
+
+    @SneakyThrows
+    public void deleteUser(Long id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new Exception("Unable to find user by id " + id));
+
+        user.setStatus(UserStatus.BANNED);
+        user.setPassword("");
+        userRepository.save(user);
+    }
+
+    @SneakyThrows
+    public UserDto updatePassword(UserWithPasswordDto userWithPasswordDto) {
+        User user = userRepository.findById(userWithPasswordDto.getId())
+                .orElseThrow(() -> new Exception("Unable to find user by id " + userWithPasswordDto.getId()));
+
+        user.setPassword(new BCryptPasswordEncoder(12).encode(userWithPasswordDto.getPassword()));
+
+        User savedUser = userRepository.save(user);
+        return conversionService.convert(savedUser, UserDto.class);
     }
 
     @SneakyThrows
@@ -85,5 +129,14 @@ public class UserService implements UserDetailsService {
     public UserDto getUser(String email) {
         User user = userRepository.findByEmail(email);
         return conversionService.convert(user, UserDto.class);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        User user = userRepository.findByEmailWithStatusActive(email);
+        if (user == null) {
+            throw new UsernameNotFoundException("User doesn't exists");
+        }
+        return UserSecurity.fromUser(user);
     }
 }
