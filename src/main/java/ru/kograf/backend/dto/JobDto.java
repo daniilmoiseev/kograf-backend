@@ -20,5 +20,5 @@ public class JobDto {
     private Long sectionId;
     private List<CommentDto> comments;
     private ZonedDateTime dateTime;
-    private String sourceFile;
+    private String fileName;
 }

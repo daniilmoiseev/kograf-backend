@@ -35,6 +35,12 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         jdbc.lob.non_contextual_creation: true
         cache.use_second_level_cache: false
+  servlet:
+    multipart:
+      enabled: true
+      file-size-threshold: 2KB
+      max-file-size: 200MB
+      max-request-size: 200MB
   #whiteip: http://localhost:4200
   whiteip: '*'
   port: 8080
@@ -42,6 +48,8 @@ spring:
 kograf:
   sql:
     fi: ""
+#  upload-dir: "~/Desktop/nntu/inf res/kograf/files"
+  upload-dir: "/Users/moiseev.d/Desktop/nntu/inf res/kograf/uploads"
 
 springdoc:
   swagger-ui:

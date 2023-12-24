@@ -30,7 +30,7 @@ public class JobConverter implements Converter<Job, JobDto> {
         target.setSectionId(source.getSection().getId());
         target.setComments(conversionService.convert(source.getComments(), CommentDto.class));
         target.setDateTime(source.getDateTime());
-        target.setSourceFile(source.getSourceFile());
+        target.setFileName(source.getFileName());
         return target;
     }
 }

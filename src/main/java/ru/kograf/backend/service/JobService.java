@@ -53,4 +53,14 @@ public class JobService {
         }
         return null;
     }
+
+    @SneakyThrows
+    public JobDto createJob(JobDto jobDto) {
+        Job job = conversionService.convert(jobDto, Job.class);
+        if (job != null) {
+            Job save = jobRepository.save(job);
+            return conversionService.convert(save, JobDto.class);
+        }
+        return null;
+    }
 }

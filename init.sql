@@ -52,7 +52,7 @@ CREATE TABLE kograf_job (
   conference_id    int,
   section_id       int,
   date_time        TIMESTAMP NOT NULL,
-  source_file      VARCHAR(255),
+  file_name        VARCHAR(255),
   PRIMARY KEY (id)
 );
 
@@ -101,11 +101,11 @@ INSERT INTO kograf_section(title, organization, leader_name, conference_id)
 INSERT INTO kograf_section(title, organization, leader_name, conference_id)
                 VALUES ('title3', 'organization', 'ЕкатСерг', 1);
 
-INSERT INTO kograf_job(title, description, co_authors, user_id, conference_id, section_id, date_time, source_file)
-                VALUES ('title1', 'description1', 'co_authors', 1, 1, 1, now(), 'sourcefile.');
-INSERT INTO kograf_job(title, description, co_authors, user_id, conference_id, section_id, date_time, source_file)
-                VALUES ('title2', 'description2', 'co_authors', 1, 1, 1, now(), 'sourcefile.');
-INSERT INTO kograf_job(title, description, co_authors, user_id, conference_id, section_id, date_time, source_file)
-                VALUES ('title2', 'description2', 'co_authors', 2, 1, 1, now(), 'sourcefile.');
-INSERT INTO kograf_job(title, description, co_authors, user_id, conference_id, section_id, date_time, source_file)
-                VALUES ('title2', 'description2', 'co_authors', 3, 1, 1, now(), 'sourcefile.');
+INSERT INTO kograf_job(title, description, co_authors, user_id, conference_id, section_id, date_time, file_name)
+                VALUES ('title1', 'description1', 'co_authors', 1, 1, 1, now(), 'todo.txt');
+INSERT INTO kograf_job(title, description, co_authors, user_id, conference_id, section_id, date_time, file_name)
+                VALUES ('title2', 'description2', 'co_authors', 1, 1, 1, now(), 'todo1.txt');
+INSERT INTO kograf_job(title, description, co_authors, user_id, conference_id, section_id, date_time, file_name)
+                VALUES ('title2', 'description2', 'co_authors', 2, 1, 1, now(), 'todo2.txt');
+INSERT INTO kograf_job(title, description, co_authors, user_id, conference_id, section_id, date_time, file_name)
+                VALUES ('title2', 'description2', 'co_authors', 3, 1, 1, now(), 'todo3.txt');

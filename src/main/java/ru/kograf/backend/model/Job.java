@@ -59,6 +59,6 @@ public class Job {
     @Column(name = "date_time", nullable = false)
     private ZonedDateTime dateTime;
 
-    @Column(name = "source_file")
-    private String sourceFile;
+    @Column(name = "file_name")
+    private String fileName;
 }

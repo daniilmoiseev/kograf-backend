@@ -1,21 +1,36 @@
 package ru.kograf.backend.conversation.converter;
 
+import lombok.SneakyThrows;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 import ru.kograf.backend.conversation.service.IKografConversionService;
 import ru.kograf.backend.dto.JobDto;
 import ru.kograf.backend.model.Comment;
+import ru.kograf.backend.model.Conference;
 import ru.kograf.backend.model.Job;
+import ru.kograf.backend.model.Section;
+import ru.kograf.backend.model.User;
+import ru.kograf.backend.repository.ConferenceRepository;
+import ru.kograf.backend.repository.SectionRepository;
+import ru.kograf.backend.repository.UserRepository;
 
 @Component
 public class JobDtoConverter implements Converter<JobDto, Job> {
 
     private final IKografConversionService conversionService;
+    private final UserRepository userRepository;
+    private final ConferenceRepository conferenceRepository;
+    private final SectionRepository sectionRepository;
 
-    public JobDtoConverter(IKografConversionService conversionService) {
+    public JobDtoConverter(IKografConversionService conversionService, UserRepository userRepository,
+            ConferenceRepository conferenceRepository, SectionRepository sectionRepository) {
         this.conversionService = conversionService;
+        this.userRepository = userRepository;
+        this.conferenceRepository = conferenceRepository;
+        this.sectionRepository = sectionRepository;
     }
 
+    @SneakyThrows
     @Override
     public Job convert(JobDto source) {
         Job target = new Job();
@@ -25,12 +40,24 @@ public class JobDtoConverter implements Converter<JobDto, Job> {
         target.setTitle(source.getTitle());
         target.setDescription(source.getDescription());
         target.setCoAuthors(source.getCoAuthors());
-        /*target.setUser(conversionService.convert(source.getUser(), User.class));
-        target.setConference(conversionService.convert(source.getConference(), Conference.class));
-        target.setSection(conversionService.convert(source.getSection(), Section.class));*/
+        if (source.getUserId() != null) {
+            User user = userRepository.findById(source.getUserId())
+                    .orElseThrow(() -> new Exception("Unable to find user by id " + source.getUserId()));
+            target.setUser(user);
+        }
+        if (source.getConferenceId() != null) {
+            Conference conference = conferenceRepository.findById(source.getConferenceId())
+                    .orElseThrow(() -> new Exception("Unable to find conference by id " + source.getConferenceId()));
+            target.setConference(conference);
+        }
+        if (source.getSectionId() != null) {
+            Section section = sectionRepository.findById(source.getSectionId())
+                    .orElseThrow(() -> new Exception("Unable to find section by id " + source.getSectionId()));
+            target.setSection(section);
+        }
         target.setComments(conversionService.convert(source.getComments(), Comment.class));
         target.setDateTime(source.getDateTime());
-        target.setSourceFile(source.getSourceFile());
+        target.setFileName(source.getFileName());
         return target;
     }
 }

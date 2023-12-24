@@ -9,11 +9,17 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
+import lombok.Getter;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+@Getter
 @Configuration
 public class CommonConfig {
+
+    @Value("${kograf.upload-dir}")
+    private String uploadPath;
 
     @Bean
     public ObjectMapper objectMapper() {
