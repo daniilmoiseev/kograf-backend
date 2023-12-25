@@ -67,6 +67,7 @@ public class FileService {
                     return jobs.stream().map(Job::getFileName).toList();
                 })
                 .flatMap(List::stream)
+                .filter(org.apache.commons.lang3.StringUtils::isNotBlank)
                 .map(e -> Arrays.asList(e.split(",")))
                 .flatMap(List::stream)
                 .toList();
@@ -144,18 +145,21 @@ public class FileService {
             for (String fileName : fileNameList) {
                 Path filePath = this.fileStorageLocation.resolve(fileName).normalize();
 
-                File fileToZip = new File(filePath.toAbsolutePath().toString());
+                if (filePath.toFile().exists()) {
+                    File fileToZip = new File(filePath.toAbsolutePath().toString());
 
-                try (InputStream fis = Files.newInputStream(fileToZip.toPath().toAbsolutePath())) {
-                    ZipEntry zipEntry = new ZipEntry(fileToZip.getName());
-                    zipOut.putNextEntry(zipEntry);
+                    try (InputStream fis = Files.newInputStream(fileToZip.toPath().toAbsolutePath())) {
+                        ZipEntry zipEntry = new ZipEntry(fileToZip.getName());
+                        zipOut.putNextEntry(zipEntry);
 
-                    byte[] bytes = new byte[1024];
-                    int length;
-                    while ((length = fis.read(bytes)) >= 0) {
-                        zipOut.write(bytes, 0, length);
+                        byte[] bytes = new byte[1024];
+                        int length;
+                        while ((length = fis.read(bytes)) >= 0) {
+                            zipOut.write(bytes, 0, length);
+                        }
                     }
                 }
+
             }
             zipOut.close();
         } catch (IOException e) {
