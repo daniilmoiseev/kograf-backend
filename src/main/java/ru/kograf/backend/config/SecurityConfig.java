@@ -23,6 +23,8 @@ public class SecurityConfig {
     private static final List<String> AUTH_WHITELIST = List.of(
             "/api/v1/auth/**",
             "/api/v1/member/**",
+            "/api/v1/files/**", //remove
+            "/api/v1/admin/**", //remove
             "/v3/api-docs/**",
             "/v3/api-docs.yaml",
             "/swagger-ui/**",

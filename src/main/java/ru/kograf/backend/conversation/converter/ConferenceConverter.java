@@ -1,5 +1,7 @@
 package ru.kograf.backend.conversation.converter;
 
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
@@ -32,8 +34,9 @@ public class ConferenceConverter implements Converter<Conference, ConferenceDto>
         target.setUserIds(source.getUsers() != null
                 ? source.getUsers().stream().map(User::getId).toList()
                 : Collections.emptyList());
-        target.setStartDate(source.getStartDate());
-        target.setEndDate(source.getEndDate());
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        target.setStartDate(dtf.format(source.getStartDate().withZoneSameInstant(ZoneId.of("Europe/Moscow"))));
+        target.setEndDate(dtf.format(source.getEndDate().withZoneSameInstant(ZoneId.of("Europe/Moscow"))));
         return target;
     }
 }

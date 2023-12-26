@@ -20,6 +20,6 @@ public class ConferenceDto {
     private ConferenceStatus status;
     private List<Long> userIds;
     private Integer countUsers;
-    private ZonedDateTime startDate;
-    private ZonedDateTime endDate;
+    private String startDate;
+    private String endDate;
 }

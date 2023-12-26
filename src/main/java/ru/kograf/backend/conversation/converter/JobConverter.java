@@ -1,5 +1,7 @@
 package ru.kograf.backend.conversation.converter;
 
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 import ru.kograf.backend.conversation.service.IKografConversionService;
@@ -29,7 +31,9 @@ public class JobConverter implements Converter<Job, JobDto> {
         target.setConferenceId(source.getConference().getId());
         target.setSectionId(source.getSection().getId());
         target.setComments(conversionService.convert(source.getComments(), CommentDto.class));
-        target.setDateTime(source.getDateTime());
+
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        target.setDateTime(dtf.format(source.getDateTime().withZoneSameInstant(ZoneId.of("Europe/Moscow"))));
         target.setFileName(source.getFileName());
         return target;
     }

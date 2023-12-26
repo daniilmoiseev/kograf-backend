@@ -1,5 +1,9 @@
 package ru.kograf.backend.conversation.converter;
 
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import lombok.SneakyThrows;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
@@ -56,7 +60,17 @@ public class JobDtoConverter implements Converter<JobDto, Job> {
             target.setSection(section);
         }
         target.setComments(conversionService.convert(source.getComments(), Comment.class));
-        target.setDateTime(source.getDateTime());
+
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        ZonedDateTime dt;
+        try {
+            dt = ZonedDateTime.parse(source.getDateTime(), dtf.withZone(ZoneId.of("Europe/Moscow")));
+        } catch (DateTimeParseException ex) {
+            dt = ZonedDateTime.parse(source.getDateTime()).withZoneSameInstant(ZoneId.of("Europe/Moscow"));
+        } catch (NullPointerException ex) {
+            dt = null;
+        }
+        target.setDateTime(dt);
         target.setFileName(source.getFileName());
         return target;
     }

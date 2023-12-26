@@ -33,17 +33,19 @@ public class FileController {
     @GetMapping(value = "/downloadFiles/{conferenceId}", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     public ResponseEntity<Resource> downloadFiles(@PathVariable Long conferenceId,
             HttpServletRequest request) {
+        log.debug("Download file by conference {}", conferenceId);
         return fileService.downloadFilesByConference(conferenceId, request);
     }
 
     @GetMapping(value = "/downloadFile/{fileName:.+}", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     public ResponseEntity<Resource> downloadFile(@PathVariable String fileName, HttpServletRequest request) {
-        log.info("download file by name");
+        log.debug("Download file by name {}", fileName);
         return fileService.downloadFile(fileName, request);
     }
 
     @PostMapping(value = "/uploadFile", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public UploadFileResponse uploadFile(@RequestParam MultipartFile file) {
+        log.debug("Upload one file {}", file.getOriginalFilename());
         String fileName = fileService.storeFile(file);
 
         String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
@@ -58,6 +60,7 @@ public class FileController {
 
     @PostMapping(value = "/uploadMultipleFiles", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public List<UploadFileResponse> uploadFiles(@RequestParam MultipartFile[] files) {
+        log.debug("Upload multiple files");
         return Arrays.stream(files)
                 .map(this::uploadFile)
                 .collect(Collectors.toList());

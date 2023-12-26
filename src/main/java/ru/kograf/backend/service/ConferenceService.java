@@ -1,5 +1,6 @@
 package ru.kograf.backend.service;
 
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Collections;
 import java.util.List;
@@ -49,6 +50,14 @@ public class ConferenceService {
                 .toList();
     }
 
+    @SneakyThrows
+    @Transactional(readOnly = true)
+    public ConferenceDto getConference(Long id) {
+        Conference conferencesFromDb = conferenceRepository.findById(id)
+                .orElseThrow(() -> new Exception("Unable to find conference by id " + id));;
+        return conversionService.convert(conferencesFromDb, ConferenceDto.class);
+    }
+
     public ConferenceDto createConference(ConferenceDto conferenceDto) {
         Conference conference = conversionService.convert(conferenceDto, Conference.class);
         if (conference != null) {
@@ -59,10 +68,10 @@ public class ConferenceService {
             ZonedDateTime startDate = conference.getStartDate();
             ZonedDateTime endDate = conference.getEndDate();
             conference.setStartDate(startDate == null
-                    ? ZonedDateTime.now()
+                    ? ZonedDateTime.now(ZoneId.of("Europe/Moscow"))
                     : startDate);
             conference.setEndDate(endDate == null
-                    ? ZonedDateTime.now().plusDays(14)
+                    ? ZonedDateTime.now(ZoneId.of("Europe/Moscow")).plusDays(14)
                     : endDate);
 
             List<Section> sections = conference.getSections();
@@ -87,26 +96,27 @@ public class ConferenceService {
         Conference conferenceFromDb = conferenceRepository.findById(id)
                 .orElseThrow(() -> new Exception("Unable to find conference by id " + id));
 
+        Conference conference = conversionService.convert(conferenceDto, Conference.class);
         if (conferenceFromDb != null) {
-            conferenceFromDb.setTitle(conferenceDto.getTitle());
-            conferenceFromDb.setOrganization(conferenceDto.getOrganization());
-            conferenceFromDb.setDescription(conferenceDto.getDescription());
+            conferenceFromDb.setTitle(conference.getTitle());
+            conferenceFromDb.setOrganization(conference.getOrganization());
+            conferenceFromDb.setDescription(conference.getDescription());
 
-            ConferenceStatus status = conferenceDto.getStatus();
+            ConferenceStatus status = conference.getStatus();
             conferenceFromDb.setStatus(status == null
                     ? ConferenceStatus.ON_HOLD
                     : status);
-            ZonedDateTime startDate = conferenceDto.getStartDate();
-            ZonedDateTime endDate = conferenceDto.getEndDate();
+            ZonedDateTime startDate = conference.getStartDate();
+            ZonedDateTime endDate = conference.getEndDate();
             conferenceFromDb.setStartDate(startDate == null
-                    ? ZonedDateTime.now()
+                    ? ZonedDateTime.now(ZoneId.of("Europe/Moscow"))
                     : startDate);
             conferenceFromDb.setEndDate(endDate == null
-                    ? ZonedDateTime.now().plusDays(14)
+                    ? ZonedDateTime.now(ZoneId.of("Europe/Moscow")).plusDays(14)
                     : endDate);
 
             Conference saved = conferenceRepository.save(conferenceFromDb);
-            List<Section> sections = conversionService.convert(conferenceDto.getSections(), Section.class);
+            List<Section> sections = conference.getSections();
 
             if (CollectionUtils.isEmpty(sections)) {
                 saved.setSections(Collections.emptyList());

@@ -19,6 +19,6 @@ public class JobDto {
     private Long conferenceId;
     private Long sectionId;
     private List<CommentDto> comments;
-    private ZonedDateTime dateTime;
+    private String dateTime;
     private String fileName;
 }
