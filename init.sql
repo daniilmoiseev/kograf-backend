@@ -74,18 +74,18 @@ CREATE TABLE kograf_user_to_conference (
 );
 
 INSERT INTO kograf_user(full_name, email, phone, organization, academic_degree, academic_title, orc_id, rinc_id, password, profile_picture, role, status)
-                VALUES ('fullname1', 'email1@email.com', '78901234455', 'organization', '', '', '', '', '$2a$12$5dyqBt.AnK0ti323LVRZzeHLSD5MYPx5TBhIwJPs.D8D8CJRY6eR6', '', 'MEMBER', 'ACTIVE');
+                VALUES ('Моисеев Даниил Сергеевич', 'email1@email.com', '78901234455', 'НГТУ им. Р.Е. Алексеева', '', '', '', '', '$2a$12$5dyqBt.AnK0ti323LVRZzeHLSD5MYPx5TBhIwJPs.D8D8CJRY6eR6', '', 'MEMBER', 'ACTIVE');
 INSERT INTO kograf_user(full_name, email, phone, organization, academic_degree, academic_title, orc_id, rinc_id, password, profile_picture, role, status)
-                VALUES ('fullname2', 'email2@email.com', '78901234455', 'organization', '', '', '', '', '$2a$12$5dyqBt.AnK0ti323LVRZzeHLSD5MYPx5TBhIwJPs.D8D8CJRY6eR6', '', 'MEMBER', 'ACTIVE');
+                VALUES ('Глухов Кирилл Андреевич', 'email2@email.com', '78901234455', 'НГТУ им. Р.Е. Алексеева', '', '', '', '', '$2a$12$5dyqBt.AnK0ti323LVRZzeHLSD5MYPx5TBhIwJPs.D8D8CJRY6eR6', '', 'MEMBER', 'ACTIVE');
 INSERT INTO kograf_user(full_name, email, phone, organization, academic_degree, academic_title, orc_id, rinc_id, password, profile_picture, role, status)
-                VALUES ('fullname3', 'admin@email.com', '78901234455', 'organization', '', '', '', '', '$2a$12$5dyqBt.AnK0ti323LVRZzeHLSD5MYPx5TBhIwJPs.D8D8CJRY6eR6', '', 'ADMIN', 'ACTIVE');
+                VALUES ('admin', 'admin@email.com', '78901234455', 'organization', '', '', '', '', '$2a$12$5dyqBt.AnK0ti323LVRZzeHLSD5MYPx5TBhIwJPs.D8D8CJRY6eR6', '', 'ADMIN', 'ACTIVE');
 
 INSERT INTO kograf_conference(title, organization, description, status, start_date, end_date)
-                VALUES ('title1', 'organization', 'description', 'ON_HOLD', now(), now() + interval '14' day);
+                VALUES ('КОГРАФ', 'НГТУ им. Р.Е. Алексеева', 'Лучшая конференция по 3D', 'ACTIVE', now(), now() + interval '14' day);
 INSERT INTO kograf_conference(title, organization, description, status, start_date, end_date)
-                VALUES ('title2', 'organization', 'description', 'ON_HOLD', now(), now() + interval '14' day);
+                VALUES ('Студент России', 'МГУ им. Ломоносова', 'Конференция для студентов', 'ON_HOLD', now(), now() + interval '14' day);
 INSERT INTO kograf_conference(title, organization, description, status, start_date, end_date)
-                VALUES ('title3', 'organization', 'description', 'ON_HOLD', now(), now() + interval '14' day);
+                VALUES ('Конференция', 'ННГУ им. Лобачевского', 'Конференция для студентов', 'CLOSED', now(), now() + interval '14' day);
 
 INSERT INTO kograf_user_to_conference(user_id, conference_id)
                 VALUES (1, 1);
@@ -95,17 +95,17 @@ INSERT INTO kograf_user_to_conference(user_id, conference_id)
                 VALUES (3, 1);
 
 INSERT INTO kograf_section(title, organization, leader_name, conference_id)
-                VALUES ('title1', 'organization', 'ЕкатСерг', 1);
+                VALUES ('3D моделирование', 'НГТУ им. Р.Е. Алексеева', 'Екатерина Глумова', 1);
 INSERT INTO kograf_section(title, organization, leader_name, conference_id)
-                VALUES ('title2', 'organization', 'ЕкатСерг', 1);
+                VALUES ('WEB программирование', 'НГТУ им. Р.Е. Алексеева', 'Сергей Соловьев', 1);
 INSERT INTO kograf_section(title, organization, leader_name, conference_id)
-                VALUES ('title3', 'organization', 'ЕкатСерг', 1);
+                VALUES ('ГИС', 'НГТУ им. Р.Е. Алексеева', 'Татьяна Томчинская', 1);
 
 INSERT INTO kograf_job(title, description, co_authors, user_id, conference_id, section_id, date_time, file_name)
-                VALUES ('title1', 'description1', 'co_authors', 1, 1, 1, now(), 'todo.txt');
+                VALUES ('Реализация ИС для разработчиков', 'Самая лучшая ИС для разработчиков во вселенной', 'Филинских А.Д', 1, 1, 1, now(), 'todo.txt');
 INSERT INTO kograf_job(title, description, co_authors, user_id, conference_id, section_id, date_time, file_name)
-                VALUES ('title2', 'description2', 'co_authors', 1, 1, 1, now(), 'todo1.txt');
+                VALUES ('Что-то очень интересное', 'Что-то очень интересное', 'Кто-то да', 1, 1, 1, now(), 'todo1.txt');
 INSERT INTO kograf_job(title, description, co_authors, user_id, conference_id, section_id, date_time, file_name)
-                VALUES ('title2', 'description2', 'co_authors', 2, 1, 1, now(), 'todo2.txt');
+                VALUES ('Что-то очень интересное или нет', 'Что-то очень интересное или нет', 'Нет', 2, 1, 1, now(), 'todo2.txt');
 INSERT INTO kograf_job(title, description, co_authors, user_id, conference_id, section_id, date_time, file_name)
-                VALUES ('title2', 'description2', 'co_authors', 3, 1, 1, now(), 'todo3.txt');
+                VALUES ('Не интересное', 'Не интересное', 'Нет', 3, 1, 1, now(), 'todo3.txt');

@@ -1,11 +1,15 @@
 package ru.kograf.backend.service;
 
+import com.ibm.icu.text.Transliterator;
 import jakarta.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -97,7 +101,8 @@ public class FileService {
 
         return ResponseEntity.ok()
                 .contentType(MediaType.parseMediaType(contentType))
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + encodeFileName(resource.getFilename()))
+                .header(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS, HttpHeaders.CONTENT_DISPOSITION)
                 .body(resource);
     }
 
@@ -167,5 +172,10 @@ public class FileService {
         }
 
         return zipFileName;
+    }
+
+    private String encodeFileName(String fileName) {
+        Transliterator toLatinTrans = Transliterator.getInstance("Russian-Latin/BGN");
+        return toLatinTrans.transliterate(fileName);
     }
 }

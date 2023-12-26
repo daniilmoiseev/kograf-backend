@@ -36,6 +36,12 @@ public class AdminController {
         return null;
     }
 
+    @GetMapping("/conference/{id}")
+    public ConferenceDto getConference(@PathVariable Long id) {
+        log.debug("Get conference {}", id);
+        return conferenceService.getConferenceAdmin(id);
+    }
+
     @PutMapping("/conference/{id}/update")
     //@PreAuthorize("hasAnyAuthority('ADMIN_PERMISSION')")
     public ConferenceDto updateConference(@PathVariable Long id, @RequestBody ConferenceDto conferenceDto) {

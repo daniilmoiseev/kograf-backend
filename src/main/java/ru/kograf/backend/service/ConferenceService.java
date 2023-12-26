@@ -52,10 +52,22 @@ public class ConferenceService {
 
     @SneakyThrows
     @Transactional(readOnly = true)
-    public ConferenceDto getConference(Long id) {
+    public ConferenceDto getConferenceAdmin(Long id) {
         Conference conferencesFromDb = conferenceRepository.findById(id)
                 .orElseThrow(() -> new Exception("Unable to find conference by id " + id));;
-        return conversionService.convert(conferencesFromDb, ConferenceDto.class);
+        ConferenceDto convert = conversionService.convert(conferencesFromDb, ConferenceDto.class);
+        convert.setCountUsers(convert.getUserIds().size());
+        return convert;
+    }
+
+    @SneakyThrows
+    @Transactional(readOnly = true)
+    public ConferenceDto getConferencePublic(Long id) {
+        Conference conferencesFromDb = conferenceRepository.findById(id)
+                .orElseThrow(() -> new Exception("Unable to find conference by id " + id));;
+        ConferenceDto convert = conversionService.convert(conferencesFromDb, ConferenceDto.class);
+        convert.setUserIds(Collections.emptyList());
+        return convert;
     }
 
     public ConferenceDto createConference(ConferenceDto conferenceDto) {

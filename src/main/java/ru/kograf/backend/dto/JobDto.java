@@ -15,6 +15,9 @@ public class JobDto {
     private String title;
     private String description;
     private String coAuthors;
+    private String userName;
+    private String conferenceTitle;
+    private String sectionTitle;
     private Long userId;
     private Long conferenceId;
     private Long sectionId;

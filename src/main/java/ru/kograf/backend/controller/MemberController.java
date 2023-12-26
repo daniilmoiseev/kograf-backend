@@ -42,7 +42,7 @@ public class MemberController {
     @GetMapping("/conference/{id}")
     public ConferenceDto getConference(@PathVariable Long id) {
         log.debug("Get conference {}", id);
-        return conferenceService.getConference(id);
+        return conferenceService.getConferencePublic(id);
     }
 
     @GetMapping("/conference/{id}/sections")

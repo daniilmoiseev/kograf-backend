@@ -27,6 +27,10 @@ public class JobConverter implements Converter<Job, JobDto> {
         target.setTitle(source.getTitle());
         target.setDescription(source.getDescription());
         target.setCoAuthors(source.getCoAuthors());
+        target.setUserName(source.getUser().getFullName());
+        target.setConferenceTitle(source.getConference().getTitle());
+        target.setSectionTitle(source.getSection().getTitle());
+        target.setUserName(source.getUser().getFullName());
         target.setUserId(source.getUser().getId());
         target.setConferenceId(source.getConference().getId());
         target.setSectionId(source.getSection().getId());
