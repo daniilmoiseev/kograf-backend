@@ -38,7 +38,7 @@ public class ConferenceDtoConverter implements Converter<ConferenceDto, Conferen
             sd = ZonedDateTime.parse(source.getStartDate(), dtf.withZone(ZoneId.of("Europe/Moscow")));
         } catch (DateTimeParseException ex) {
             sd = ZonedDateTime.parse(source.getStartDate()).withZoneSameInstant(ZoneId.of("Europe/Moscow"));
-        } catch (NullPointerException ex) {
+        } catch (Exception ex) {
             sd = null;
         }
         ZonedDateTime ed;
@@ -46,7 +46,7 @@ public class ConferenceDtoConverter implements Converter<ConferenceDto, Conferen
             ed = ZonedDateTime.parse(source.getEndDate(), dtf.withZone(ZoneId.of("Europe/Moscow")));
         } catch (DateTimeParseException ex) {
             ed = ZonedDateTime.parse(source.getEndDate()).withZoneSameInstant(ZoneId.of("Europe/Moscow"));
-        } catch (NullPointerException ex) {
+        } catch (Exception ex) {
             ed = null;
         }
         target.setStartDate(sd);

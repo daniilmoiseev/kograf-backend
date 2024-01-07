@@ -67,7 +67,7 @@ public class JobDtoConverter implements Converter<JobDto, Job> {
             dt = ZonedDateTime.parse(source.getDateTime(), dtf.withZone(ZoneId.of("Europe/Moscow")));
         } catch (DateTimeParseException ex) {
             dt = ZonedDateTime.parse(source.getDateTime()).withZoneSameInstant(ZoneId.of("Europe/Moscow"));
-        } catch (NullPointerException ex) {
+        } catch (Exception ex) {
             dt = null;
         }
         target.setDateTime(dt);

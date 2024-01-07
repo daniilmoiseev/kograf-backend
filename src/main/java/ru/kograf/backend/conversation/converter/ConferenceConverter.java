@@ -34,6 +34,9 @@ public class ConferenceConverter implements Converter<Conference, ConferenceDto>
         target.setUserIds(source.getUsers() != null
                 ? source.getUsers().stream().map(User::getId).toList()
                 : Collections.emptyList());
+        target.setAdminId(source.getAdmin() != null
+                ? source.getAdmin().getId()
+                : null);
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         target.setStartDate(dtf.format(source.getStartDate().withZoneSameInstant(ZoneId.of("Europe/Moscow"))));
         target.setEndDate(dtf.format(source.getEndDate().withZoneSameInstant(ZoneId.of("Europe/Moscow"))));

@@ -10,11 +10,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import ru.kograf.backend.dto.ConferenceDto;
 import ru.kograf.backend.dto.JobDto;
+import ru.kograf.backend.dto.UserDto;
+import ru.kograf.backend.model.enums.Role;
 import ru.kograf.backend.service.ConferenceService;
 import ru.kograf.backend.service.JobService;
+import ru.kograf.backend.service.UserService;
 
 @Slf4j
 @RestController
@@ -25,15 +29,13 @@ public class AdminController {
 
     private final JobService jobService;
     private final ConferenceService conferenceService;
+    private final UserService userService;
 
     @PostMapping("/conference/create")
     //@PreAuthorize("hasAnyAuthority('ADMIN_PERMISSION')")
     public ConferenceDto createConference(@RequestBody ConferenceDto conferenceDto) {
-        log.debug("Create conference {}", conferenceDto.getTitle());
-        if (conferenceDto != null) {
-            return conferenceService.createConference(conferenceDto);
-        }
-        return null;
+        log.debug("Create conference {}", conferenceDto.getTitle() != null ? conferenceDto.getTitle() : "unknown");
+        return conferenceService.createConference(conferenceDto);
     }
 
     @GetMapping("/conference/{id}")
@@ -45,11 +47,8 @@ public class AdminController {
     @PutMapping("/conference/{id}/update")
     //@PreAuthorize("hasAnyAuthority('ADMIN_PERMISSION')")
     public ConferenceDto updateConference(@PathVariable Long id, @RequestBody ConferenceDto conferenceDto) {
-        log.debug("Update conference {}", conferenceDto.getTitle());
-        if (conferenceDto != null) {
-            return conferenceService.updateConference(id, conferenceDto);
-        }
-        return null;
+        log.debug("Update conference {}", conferenceDto.getTitle() != null ? conferenceDto.getTitle() : "unknown");
+        return conferenceService.updateConference(id, conferenceDto);
     }
 
     @GetMapping("/conferences")
@@ -62,5 +61,29 @@ public class AdminController {
     public List<JobDto> getJobs(@PathVariable Long conferenceId) {
         log.debug("Get jobs by conference {}", conferenceId);
         return jobService.getJobsByConference(conferenceId);
+    }
+
+    @PostMapping("/user/appointrole")
+    public boolean appointRole(@RequestParam Long userId, @RequestParam Role role) {
+        log.debug("Appoint role {} for user {}", role.getName(), userId);
+        return userService.appointRole(userId, role);
+    }
+
+    @PostMapping("/conference/{id}/appointadmin")
+    public void appointAdmin(@PathVariable Long id, @RequestParam Long userId) {
+        log.debug("Appoint admin {} for conference {}", userId, id);
+        conferenceService.appointAdmin(id, userId);
+    }
+
+    @PostMapping("/conference/{id}/disappointadmin")
+    public void disappointAdmin(@PathVariable Long id) {
+        log.debug("Disappoint admin for conference {}", id);
+        conferenceService.disappointAdmin(id);
+    }
+
+    @GetMapping("/getAllUsers")
+    public List<UserDto> getAllUsers() {
+        log.debug("Get all users");
+        return userService.getAllUsers();
     }
 }

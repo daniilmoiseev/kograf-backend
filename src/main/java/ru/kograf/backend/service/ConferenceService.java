@@ -15,9 +15,11 @@ import ru.kograf.backend.dto.ConferenceDto;
 import ru.kograf.backend.dto.SectionDto;
 import ru.kograf.backend.model.Conference;
 import ru.kograf.backend.model.Section;
+import ru.kograf.backend.model.User;
 import ru.kograf.backend.model.enums.ConferenceStatus;
 import ru.kograf.backend.repository.ConferenceRepository;
 import ru.kograf.backend.repository.SectionRepository;
+import ru.kograf.backend.repository.UserRepository;
 
 @Slf4j
 @Service
@@ -27,6 +29,7 @@ public class ConferenceService {
     private final IKografConversionService conversionService;
     private final ConferenceRepository conferenceRepository;
     private final SectionRepository sectionRepository;
+    private final UserRepository userRepository;
 
     @Transactional(readOnly = true)
     public List<ConferenceDto> getConferencesPublic() {
@@ -54,7 +57,8 @@ public class ConferenceService {
     @Transactional(readOnly = true)
     public ConferenceDto getConferenceAdmin(Long id) {
         Conference conferencesFromDb = conferenceRepository.findById(id)
-                .orElseThrow(() -> new Exception("Unable to find conference by id " + id));;
+                .orElseThrow(() -> new Exception("Unable to find conference by id " + id));
+
         ConferenceDto convert = conversionService.convert(conferencesFromDb, ConferenceDto.class);
         convert.setCountUsers(convert.getUserIds().size());
         return convert;
@@ -64,7 +68,8 @@ public class ConferenceService {
     @Transactional(readOnly = true)
     public ConferenceDto getConferencePublic(Long id) {
         Conference conferencesFromDb = conferenceRepository.findById(id)
-                .orElseThrow(() -> new Exception("Unable to find conference by id " + id));;
+                .orElseThrow(() -> new Exception("Unable to find conference by id " + id));
+
         ConferenceDto convert = conversionService.convert(conferencesFromDb, ConferenceDto.class);
         convert.setUserIds(Collections.emptyList());
         return convert;
@@ -159,5 +164,26 @@ public class ConferenceService {
     public boolean saveSections(List<Section> sections) {
         List<Section> savedSections = sectionRepository.saveAll(sections);
         return CollectionUtils.isEmpty(savedSections);
+    }
+
+    @SneakyThrows
+    public void appointAdmin(Long id, Long userId) {
+        Conference conferenceFromDb = conferenceRepository.findById(id)
+                .orElseThrow(() -> new Exception("Unable to find conference by id " + id));
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new Exception("Unable to find user by id " + userId));
+
+        conferenceFromDb.setAdmin(user);
+        conferenceRepository.save(conferenceFromDb);
+    }
+
+    @SneakyThrows
+    public void disappointAdmin(Long id) {
+        Conference conferenceFromDb = conferenceRepository.findById(id)
+                .orElseThrow(() -> new Exception("Unable to find conference by id " + id));
+
+        conferenceFromDb.setAdmin(null);
+        conferenceRepository.save(conferenceFromDb);
     }
 }

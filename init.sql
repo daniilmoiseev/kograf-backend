@@ -29,6 +29,7 @@ CREATE TABLE kograf_conference (
   organization     VARCHAR(255),
   description      VARCHAR(255),
   status           VARCHAR(255),
+  admin_id         int,
   start_date       TIMESTAMP NOT NULL,
   end_date         TIMESTAMP NOT NULL,
   PRIMARY KEY (id)
@@ -74,11 +75,11 @@ CREATE TABLE kograf_user_to_conference (
 );
 
 INSERT INTO kograf_user(full_name, email, phone, organization, academic_degree, academic_title, orc_id, rinc_id, password, profile_picture, role, status)
-                VALUES ('Моисеев Даниил Сергеевич', 'email1@email.com', '78901234455', 'НГТУ им. Р.Е. Алексеева', '', '', '', '', '$2a$12$5dyqBt.AnK0ti323LVRZzeHLSD5MYPx5TBhIwJPs.D8D8CJRY6eR6', '', 'MEMBER', 'ACTIVE');
+                VALUES ('Моисеев Даниил Сергеевич', 'email1@mail.ru', '78901234455', 'НГТУ им. Р.Е. Алексеева', '', '', '', '', '$2a$12$5dyqBt.AnK0ti323LVRZzeHLSD5MYPx5TBhIwJPs.D8D8CJRY6eR6', '', 'MEMBER', 'ACTIVE');
 INSERT INTO kograf_user(full_name, email, phone, organization, academic_degree, academic_title, orc_id, rinc_id, password, profile_picture, role, status)
-                VALUES ('Глухов Кирилл Андреевич', 'email2@email.com', '78901234455', 'НГТУ им. Р.Е. Алексеева', '', '', '', '', '$2a$12$5dyqBt.AnK0ti323LVRZzeHLSD5MYPx5TBhIwJPs.D8D8CJRY6eR6', '', 'MEMBER', 'ACTIVE');
+                VALUES ('Глухов Кирилл Андреевич', 'admin@mail.ru', '78901234455', 'НГТУ им. Р.Е. Алексеева', '', '', '', '', '$2a$12$5dyqBt.AnK0ti323LVRZzeHLSD5MYPx5TBhIwJPs.D8D8CJRY6eR6', '', 'ADMIN', 'ACTIVE');
 INSERT INTO kograf_user(full_name, email, phone, organization, academic_degree, academic_title, orc_id, rinc_id, password, profile_picture, role, status)
-                VALUES ('admin', 'admin@email.com', '78901234455', 'organization', '', '', '', '', '$2a$12$5dyqBt.AnK0ti323LVRZzeHLSD5MYPx5TBhIwJPs.D8D8CJRY6eR6', '', 'ADMIN', 'ACTIVE');
+                VALUES ('superadmin', 'supadmin@mail.ru', '78901234455', 'organization', '', '', '', '', '$2a$12$5dyqBt.AnK0ti323LVRZzeHLSD5MYPx5TBhIwJPs.D8D8CJRY6eR6', '', 'SUPER_ADMIN', 'ACTIVE');
 
 INSERT INTO kograf_conference(title, organization, description, status, start_date, end_date)
                 VALUES ('КОГРАФ', 'НГТУ им. Р.Е. Алексеева', 'Лучшая конференция по 3D', 'ACTIVE', now(), now() + interval '14' day);

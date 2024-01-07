@@ -17,6 +17,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import java.time.ZonedDateTime;
 import java.util.List;
@@ -55,6 +56,10 @@ public class Conference {
             inverseJoinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")}
     )
     private List<User> users;
+
+    @OneToOne(cascade = {MERGE, REFRESH, DETACH})
+    @JoinColumn(name = "admin_id")
+    private User admin;
 
     @Column(name = "start_date")
     private ZonedDateTime startDate;

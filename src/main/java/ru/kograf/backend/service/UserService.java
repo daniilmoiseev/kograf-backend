@@ -1,5 +1,6 @@
 package ru.kograf.backend.service;
 
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -8,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.kograf.backend.conversation.service.IKografConversionService;
 import ru.kograf.backend.dto.ConfirmationLink;
 import ru.kograf.backend.dto.RegistrationDto;
@@ -17,7 +19,6 @@ import ru.kograf.backend.model.User;
 import ru.kograf.backend.model.UserSecurity;
 import ru.kograf.backend.model.enums.Role;
 import ru.kograf.backend.model.enums.UserStatus;
-import ru.kograf.backend.repository.ConferenceRepository;
 import ru.kograf.backend.repository.UserRepository;
 
 @Slf4j
@@ -27,7 +28,6 @@ public class UserService implements UserDetailsService {
 
     private final IKografConversionService conversionService;
     private final UserRepository userRepository;
-    private final ConferenceRepository conferenceRepository;
     private final EmailService emailService;
 
     public UserDto createUser(RegistrationDto registrationDto) {
@@ -138,5 +138,24 @@ public class UserService implements UserDetailsService {
             throw new UsernameNotFoundException("User doesn't exists");
         }
         return UserSecurity.fromUser(user);
+    }
+
+    @SneakyThrows
+    public boolean appointRole(Long userId, Role role) {
+        if (!Role.SUPER_ADMIN.equals(role)) {
+            User user = userRepository.findById(userId)
+                    .orElseThrow(() -> new Exception("Unable to find user by id " + userId));
+            user.setRole(role);
+            userRepository.save(user);
+            return true;
+        }
+        return false;
+    }
+
+    @Transactional(readOnly = true)
+    public List<UserDto> getAllUsers() {
+        return userRepository.findAllUsers().stream()
+                .map(e -> conversionService.convert(e, UserDto.class))
+                .toList();
     }
 }

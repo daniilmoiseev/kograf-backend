@@ -8,9 +8,9 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 @Getter
 public enum Role {
     MEMBER("Участник", Set.of(Permission.MEMBER_PERMISSION)),
-    LEADER("Руководитель секции", Set.of(Permission.MEMBER_PERMISSION, Permission.LEADER_PERMISSION)),
-    ADMIN("Администратор",
-            Set.of(Permission.MEMBER_PERMISSION, Permission.LEADER_PERMISSION, Permission.ADMIN_PERMISSION));
+    ADMIN("Администратор конференции", Set.of(Permission.MEMBER_PERMISSION, Permission.ADMIN_PERMISSION)),
+    SUPER_ADMIN("Супер-админ",
+            Set.of(Permission.MEMBER_PERMISSION, Permission.ADMIN_PERMISSION, Permission.SUPER_ADMIN_PERMISSION));
 
     private final String name;
     private final Set<Permission> permissions;

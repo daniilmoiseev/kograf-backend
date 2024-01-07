@@ -1,6 +1,5 @@
 package ru.kograf.backend.dto;
 
-import java.time.ZonedDateTime;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,6 +18,7 @@ public class ConferenceDto {
     private List<SectionDto> sections;
     private ConferenceStatus status;
     private List<Long> userIds;
+    private Long adminId;
     private Integer countUsers;
     private String startDate;
     private String endDate;

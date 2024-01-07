@@ -2,6 +2,6 @@ package ru.kograf.backend.model.enums;
 
 public enum Permission {
     MEMBER_PERMISSION,
-    LEADER_PERMISSION,
-    ADMIN_PERMISSION
+    ADMIN_PERMISSION,
+    SUPER_ADMIN_PERMISSION
 }
