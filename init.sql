@@ -81,12 +81,12 @@ INSERT INTO kograf_user(full_name, email, phone, organization, academic_degree, 
 INSERT INTO kograf_user(full_name, email, phone, organization, academic_degree, academic_title, orc_id, rinc_id, password, profile_picture, role, status)
                 VALUES ('superadmin', 'supadmin@mail.ru', '78901234455', 'organization', '', '', '', '', '$2a$12$5dyqBt.AnK0ti323LVRZzeHLSD5MYPx5TBhIwJPs.D8D8CJRY6eR6', '', 'SUPER_ADMIN', 'ACTIVE');
 
-INSERT INTO kograf_conference(title, organization, description, status, start_date, end_date)
-                VALUES ('КОГРАФ', 'НГТУ им. Р.Е. Алексеева', 'Лучшая конференция по 3D', 'ACTIVE', now(), now() + interval '14' day);
-INSERT INTO kograf_conference(title, organization, description, status, start_date, end_date)
-                VALUES ('Студент России', 'МГУ им. Ломоносова', 'Конференция для студентов', 'ON_HOLD', now(), now() + interval '14' day);
-INSERT INTO kograf_conference(title, organization, description, status, start_date, end_date)
-                VALUES ('Конференция', 'ННГУ им. Лобачевского', 'Конференция для студентов', 'CLOSED', now(), now() + interval '14' day);
+INSERT INTO kograf_conference(title, organization, description, status, admin_id, start_date, end_date)
+                VALUES ('КОГРАФ', 'НГТУ им. Р.Е. Алексеева', 'Лучшая конференция по 3D', 'ACTIVE', 2, now(), now() + interval '14' day);
+INSERT INTO kograf_conference(title, organization, description, status, admin_id, start_date, end_date)
+                VALUES ('Студент России', 'МГУ им. Ломоносова', 'Конференция для студентов', 'ON_HOLD', null, now(), now() + interval '14' day);
+INSERT INTO kograf_conference(title, organization, description, status, admin_id, start_date, end_date)
+                VALUES ('Конференция', 'ННГУ им. Лобачевского', 'Конференция для студентов', 'CLOSED', null, now(), now() + interval '14' day);
 
 INSERT INTO kograf_user_to_conference(user_id, conference_id)
                 VALUES (1, 1);

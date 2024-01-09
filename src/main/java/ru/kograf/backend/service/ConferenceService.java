@@ -3,6 +3,7 @@ package ru.kograf.backend.service;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -39,6 +40,7 @@ public class ConferenceService {
                 .peek(e -> {
                     e.setUserIds(Collections.emptyList());
                 })
+                .sorted(Comparator.comparing(ConferenceDto::getTitle))
                 .toList();
     }
 
@@ -50,6 +52,7 @@ public class ConferenceService {
                 .peek(e -> {
                     e.setCountUsers(e.getUserIds().size());
                 })
+                .sorted(Comparator.comparing(ConferenceDto::getTitle))
                 .toList();
     }
 

@@ -16,6 +16,7 @@ import ru.kograf.backend.dto.ConferenceDto;
 import ru.kograf.backend.dto.JobDto;
 import ru.kograf.backend.dto.UserDto;
 import ru.kograf.backend.model.enums.Role;
+import ru.kograf.backend.model.enums.UserStatus;
 import ru.kograf.backend.service.ConferenceService;
 import ru.kograf.backend.service.JobService;
 import ru.kograf.backend.service.UserService;
@@ -63,10 +64,22 @@ public class AdminController {
         return jobService.getJobsByConference(conferenceId);
     }
 
+    @PostMapping("/user/changestatus")
+    public boolean changeStatus(@RequestParam Long userId, @RequestParam UserStatus status) {
+        log.debug("Change status {} for user {}", status.name(), userId);
+        return userService.changeStatus(userId, status);
+    }
+
     @PostMapping("/user/appointrole")
     public boolean appointRole(@RequestParam Long userId, @RequestParam Role role) {
         log.debug("Appoint role {} for user {}", role.getName(), userId);
         return userService.appointRole(userId, role);
+    }
+
+    @GetMapping("/user/getAdmins")
+    public List<UserDto> getAdmins() {
+        log.debug("Get admins");
+        return userService.getAdmins();
     }
 
     @PostMapping("/conference/{id}/appointadmin")

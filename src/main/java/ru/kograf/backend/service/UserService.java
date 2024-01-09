@@ -1,5 +1,6 @@
 package ru.kograf.backend.service;
 
+import java.util.Comparator;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -141,6 +142,15 @@ public class UserService implements UserDetailsService {
     }
 
     @SneakyThrows
+    public boolean changeStatus(Long userId, UserStatus status) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new Exception("Unable to find user by id " + userId));
+        user.setStatus(status);
+        userRepository.save(user);
+        return true;
+    }
+
+    @SneakyThrows
     public boolean appointRole(Long userId, Role role) {
         if (!Role.SUPER_ADMIN.equals(role)) {
             User user = userRepository.findById(userId)
@@ -154,8 +164,17 @@ public class UserService implements UserDetailsService {
 
     @Transactional(readOnly = true)
     public List<UserDto> getAllUsers() {
-        return userRepository.findAllUsers().stream()
+        return userRepository.findAll().stream()
+                .filter(e -> !Role.SUPER_ADMIN.equals(e.getRole()))
                 .map(e -> conversionService.convert(e, UserDto.class))
+                .sorted(Comparator.comparing(UserDto::getFullName))
+                .toList();
+    }
+
+    public List<UserDto> getAdmins() {
+        return userRepository.findAllAdmins().stream()
+                .map(e -> conversionService.convert(e, UserDto.class))
+                .sorted(Comparator.comparing(UserDto::getFullName))
                 .toList();
     }
 }

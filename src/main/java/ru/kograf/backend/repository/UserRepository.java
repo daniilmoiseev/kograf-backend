@@ -30,6 +30,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Boolean existUserByPhone(@Param("phone") String phone);
 
     @Query("FROM User u WHERE u.status = 'ACTIVE'")
-    List<User> findAllUsers();
+    List<User> findAllActiveUsers();
 
+    @Query("FROM User u WHERE u.role = 'ADMIN'")
+    List<User> findAllAdmins();
 }
