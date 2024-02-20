@@ -39,12 +39,6 @@ public class AdminController {
         return conferenceService.createConference(conferenceDto);
     }
 
-    @GetMapping("/conference/{id}")
-    public ConferenceDto getConference(@PathVariable Long id) {
-        log.debug("Get conference {}", id);
-        return conferenceService.getConferenceAdmin(id);
-    }
-
     @PutMapping("/conference/{id}/update")
     //@PreAuthorize("hasAnyAuthority('ADMIN_PERMISSION')")
     public ConferenceDto updateConference(@PathVariable Long id, @RequestBody ConferenceDto conferenceDto) {
@@ -52,10 +46,11 @@ public class AdminController {
         return conferenceService.updateConference(id, conferenceDto);
     }
 
-    @GetMapping("/conferences")
-    public List<ConferenceDto> getConferences() {
-        log.debug("Get all conferences");
-        return conferenceService.getConferencesAdmin();
+    @GetMapping("/conference/{id}/users")
+    //@PreAuthorize("hasAnyAuthority('ADMIN_PERMISSION')")
+    public Long countUsersOnConference(@PathVariable Long id) {
+        log.debug("Get count users for conference {}", id);
+        return conferenceService.countUsersOnConference(id);
     }
 
     @GetMapping("/jobs/{conferenceId}")

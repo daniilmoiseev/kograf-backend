@@ -33,49 +33,31 @@ public class ConferenceService {
     private final UserRepository userRepository;
 
     @Transactional(readOnly = true)
-    public List<ConferenceDto> getConferencesPublic() {
+    public List<ConferenceDto> getConferences() {
         List<Conference> conferencesFromDb = conferenceRepository.findAll();
         return conversionService.convert(conferencesFromDb, ConferenceDto.class)
                 .stream()
-                .peek(e -> {
-                    e.setUserIds(Collections.emptyList());
-                })
-                .sorted(Comparator.comparing(ConferenceDto::getTitle))
-                .toList();
-    }
-
-    @Transactional(readOnly = true)
-    public List<ConferenceDto> getConferencesAdmin() {
-        List<Conference> conferencesFromDb = conferenceRepository.findAll();
-        return conversionService.convert(conferencesFromDb, ConferenceDto.class)
-                .stream()
-                .peek(e -> {
-                    e.setCountUsers(e.getUserIds().size());
-                })
                 .sorted(Comparator.comparing(ConferenceDto::getTitle))
                 .toList();
     }
 
     @SneakyThrows
     @Transactional(readOnly = true)
-    public ConferenceDto getConferenceAdmin(Long id) {
+    public ConferenceDto getConference(Long id) {
         Conference conferencesFromDb = conferenceRepository.findById(id)
                 .orElseThrow(() -> new Exception("Unable to find conference by id " + id));
 
         ConferenceDto convert = conversionService.convert(conferencesFromDb, ConferenceDto.class);
-        convert.setCountUsers(convert.getUserIds().size());
         return convert;
     }
 
     @SneakyThrows
     @Transactional(readOnly = true)
-    public ConferenceDto getConferencePublic(Long id) {
+    public Long countUsersOnConference(Long id) {
         Conference conferencesFromDb = conferenceRepository.findById(id)
                 .orElseThrow(() -> new Exception("Unable to find conference by id " + id));
 
-        ConferenceDto convert = conversionService.convert(conferencesFromDb, ConferenceDto.class);
-        convert.setUserIds(Collections.emptyList());
-        return convert;
+        return (long) conferencesFromDb.getUsers().size();
     }
 
     public ConferenceDto createConference(ConferenceDto conferenceDto) {

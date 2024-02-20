@@ -36,13 +36,13 @@ public class MemberController {
     @GetMapping("/conferences")
     public List<ConferenceDto> getAllConferences() {
         log.debug("Get all conferences");
-        return conferenceService.getConferencesPublic();
+        return conferenceService.getConferences();
     }
 
     @GetMapping("/conference/{id}")
     public ConferenceDto getConference(@PathVariable Long id) {
         log.debug("Get conference {}", id);
-        return conferenceService.getConferencePublic(id);
+        return conferenceService.getConference(id);
     }
 
     @GetMapping("/conference/{id}/sections")

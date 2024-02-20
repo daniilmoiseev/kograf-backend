@@ -49,7 +49,7 @@ kograf:
   sql:
     fi: ""
 #  upload-dir: "~/Desktop/nntu/inf res/kograf/files"
-  upload-dir: "/Users/moiseev.d/Desktop/nntu/inf res/kograf/uploads"
+  upload-dir: "/Users/moiseev.d/Desktop/nntu/kograf/uploads"
 
 springdoc:
   swagger-ui:

@@ -17,9 +17,7 @@ public class ConferenceDto {
     private String description;
     private List<SectionDto> sections;
     private ConferenceStatus status;
-    private List<Long> userIds;
     private Long adminId;
-    private Integer countUsers;
     private String startDate;
     private String endDate;
 }

@@ -31,9 +31,6 @@ public class ConferenceConverter implements Converter<Conference, ConferenceDto>
         target.setDescription(source.getDescription());
         target.setSections(conversionService.convert(source.getSections(), SectionDto.class));
         target.setStatus(source.getStatus());
-        target.setUserIds(source.getUsers() != null
-                ? source.getUsers().stream().map(User::getId).toList()
-                : Collections.emptyList());
         target.setAdminId(source.getAdmin() != null
                 ? source.getAdmin().getId()
                 : null);
